@@ -1,0 +1,25 @@
+{
+  "name": "@dawningan/ecoq",
+  "version": "0.2.0",
+  "description": "AI-powered species distribution data assistant with multi-source fetching, automated cleaning, and publication-quality map visualization",
+  "type": "skill",
+  "author": "DawningAn",
+  "license": "MIT",
+  "keywords": [
+    "ecology",
+    "species-distribution",
+    "data-cleaning",
+    "GBIF",
+    "iNaturalist",
+    "biodiversity",
+    "cartopy",
+    "folium",
+    "SDM",
+    "ai-agent",
+    "vercel-ai-sdk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EldonQ/ChatQ"
+  }
+}
