@@ -34,37 +34,43 @@ User types species name / pastes image / uploads file
 
 ```
 E:\ChatQ\
+├── .env.local                         # Environment config (ANTHROPIC_BASE_URL)
+├── package.json                       # Next.js 16 web app
+├── next.config.ts
+├── tsconfig.json
 ├── research/
 │   ├── data-cleaning-pipeline.md      # Data quality methodology
 │   ├── research-plan.md               # Full research plan (bilingual)
 │   ├── multi-source-pipeline.md       # Multi-source fusion scheme
 │   ├── implementation-plan.md         # 6-week implementation roadmap
 │   └── framework-review.md            # Open-source framework comparison
-├── src/                               # Next.js 16 web app
-│   ├── .env.local                     # Environment config (ANTHROPIC_BASE_URL)
-│   ├── src/app/
+├── src/
+│   ├── app/
 │   │   ├── page.tsx                   # Main chat page
 │   │   ├── layout.tsx                 # Layout + sidebar + theme
 │   │   ├── api/chat/route.ts          # AI Agent API (streamText + tools)
 │   │   ├── api/map/route.ts           # Map generation (Python subprocess)
 │   │   └── globals.css                # OKLCH nature theme
-│   ├── src/components/chat/
-│   │   ├── ChatArea.tsx               # useChat hook + store sync
-│   │   ├── ChatInput.tsx              # Text + file + image paste + stop
-│   │   ├── MessageList.tsx            # Message bubbles + tool cards + markdown
-│   │   ├── ProgressSteps.tsx          # Step progress (reusable)
-│   │   ├── Sidebar.tsx                # Conversation sidebar
-│   │   └── DataPreview.tsx            # Table preview in tool cards
-│   ├── src/components/ui/             # shadcn/ui v4 (@base-ui/react)
-│   ├── src/lib/
-│   │   ├── gbif.ts                    # GBIF API client (limit: 1000)
-│   │   ├── inaturalist.ts             # iNaturalist API client (all grades)
-│   │   ├── cleaner.ts                 # Data cleaning engine
-│   │   ├── store.ts                   # Zustand (conversations only)
-│   │   ├── types.ts                   # TypeScript types
-│   │   └── utils.ts                   # cn() utility
-│   ├── scripts/map_viz.py             # Cartopy + folium map script
-│   └── public/maps/                   # Generated map images
+│   ├── components/
+│   │   ├── chat/
+│   │   │   ├── ChatArea.tsx           # useChat hook + store sync
+│   │   │   ├── ChatInput.tsx          # Text + file + image paste + stop
+│   │   │   ├── MessageList.tsx        # Message bubbles + tool cards + markdown
+│   │   │   ├── ProgressSteps.tsx      # Step progress (reusable)
+│   │   │   ├── Sidebar.tsx            # Conversation sidebar
+│   │   │   └── DataPreview.tsx        # Table preview in tool cards
+│   │   └── ui/                        # shadcn/ui v4 (@base-ui/react)
+│   └── lib/
+│       ├── gbif.ts                    # GBIF API client
+│       ├── inaturalist.ts             # iNaturalist API client
+│       ├── cleaner.ts                 # Data cleaning engine
+│       ├── store.ts                   # Zustand (conversations only)
+│       ├── types.ts                   # TypeScript types
+│       └── utils.ts                   # cn() utility
+├── scripts/
+│   └── map_viz.py                     # Cartopy + folium map script
+├── public/
+│   └── maps/                          # Generated map images
 └── skills/                            # Claude Code Skills
 ```
 
@@ -72,7 +78,6 @@ E:\ChatQ\
 
 ```bash
 # Development
-cd E:\ChatQ\src
 npm run dev        # http://localhost:3000
 npm run build      # Production build
 npm run lint       # ESLint

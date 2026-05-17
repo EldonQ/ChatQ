@@ -48,7 +48,7 @@ __pycache__/
 .claude/
 
 # generated maps (keep directory structure)
-src/public/maps/data_*
+public/maps/data_*
 
 # ide
 .idea/
