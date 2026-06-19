@@ -63,7 +63,7 @@ export function ChatArea() {
     return (
       <div className="flex-1 flex items-center justify-center bg-background">
         <div className="text-center space-y-3">
-          <div className="mx-auto size-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+          <div className="mx-auto size-14 rounded-2xl bg-primary/10 flex items-center justify-center ring-1 ring-primary/20">
             <svg
               className="size-7 text-primary"
               fill="none"

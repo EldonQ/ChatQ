@@ -89,7 +89,7 @@ export function Sidebar() {
     <Button
       variant="ghost"
       size="icon"
-      className="size-8 rounded-lg"
+      className="size-8 rounded-lg cursor-pointer"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       aria-label="Toggle theme"
     >
@@ -99,12 +99,12 @@ export function Sidebar() {
 
   if (!sidebarOpen) {
     return (
-      <div className="flex flex-col items-center gap-2 py-4 px-1.5 border-r border-border/50 bg-sidebar/60 backdrop-blur-xl">
+      <div className="flex flex-col items-center gap-1 py-3 px-1.5 border-r border-border/50 bg-sidebar z-20">
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
-          className="size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40"
+          className="size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/50 cursor-pointer"
           aria-label="Open sidebar"
         >
           <PanelLeft className="size-4" />
@@ -113,7 +113,7 @@ export function Sidebar() {
           variant="ghost"
           size="icon"
           onClick={newConversation}
-          className="size-9 rounded-lg text-primary hover:bg-primary/10"
+          className="size-9 rounded-lg text-primary hover:bg-primary/10 cursor-pointer"
           aria-label="New analysis"
         >
           <Plus className="size-4" />
@@ -127,10 +127,10 @@ export function Sidebar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setActive(conv.id)}
-                className={`size-9 rounded-lg ${
+                className={`size-9 rounded-lg cursor-pointer ${
                   activeId === conv.id
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground/60 hover:text-foreground hover:bg-sidebar-accent/40"
+                    ? "bg-primary/10 text-primary ring-1 ring-primary/20"
+                    : "text-muted-foreground/50 hover:text-foreground hover:bg-sidebar-accent/40"
                 }`}
                 aria-label={conv.title}
               >
@@ -146,17 +146,17 @@ export function Sidebar() {
 
   return (
     <aside
-      className="w-[280px] flex flex-col border-r border-border/50 bg-sidebar/60 backdrop-blur-xl shrink-0"
+      className="w-[260px] flex flex-col border-r border-border/50 bg-sidebar shrink-0 z-20"
       aria-label="Sidebar"
     >
-      <div className="flex items-center justify-between px-4 pt-5 pb-4">
+      <div className="flex items-center justify-between px-4 pt-4 pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center ring-1 ring-primary/20">
+          <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center ring-1 ring-primary/20">
             <Leaf className="size-4 text-primary" />
           </div>
           <div className="leading-none">
-            <h1 className="font-bold text-[15px] tracking-tight">EcoQ</h1>
-            <p className="text-[11px] text-muted-foreground mt-1 font-medium">Species Distribution</p>
+            <h1 className="font-bold text-sm tracking-tight">EcoQ</h1>
+            <p className="text-[10px] text-muted-foreground mt-0.5 font-mono">Species Distribution</p>
           </div>
         </div>
         <div className="flex items-center gap-0.5">
@@ -164,7 +164,7 @@ export function Sidebar() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 rounded-lg"
+            className="size-8 rounded-lg cursor-pointer"
             onClick={toggleSidebar}
             aria-label="Close sidebar"
           >
@@ -177,16 +177,16 @@ export function Sidebar() {
         <Button
           variant="outline"
           size="sm"
-          className="w-full justify-start gap-2 rounded-lg h-9 text-[13px] font-medium border-border/60 hover:bg-accent/40"
+          className="w-full justify-start gap-2 rounded-lg h-9 text-xs font-medium border-border/60 hover:bg-accent/30 cursor-pointer"
           onClick={newConversation}
         >
-          <Plus className="size-4" />
+          <Plus className="size-3.5" />
           New Analysis
         </Button>
       </div>
 
-      <div className="px-4 pb-2">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+      <div className="px-4 pb-1.5">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50 font-mono">
           Conversations
         </p>
       </div>
@@ -198,7 +198,7 @@ export function Sidebar() {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`flex-1 justify-start gap-2.5 text-[13px] h-9 px-3 rounded-lg font-normal ${
+                className={`flex-1 justify-start gap-2 text-xs h-9 px-3 rounded-lg font-normal cursor-pointer ${
                   activeId === conv.id
                     ? "bg-primary/8 text-foreground font-medium ring-1 ring-primary/15"
                     : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40"
@@ -215,7 +215,7 @@ export function Sidebar() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="size-7 shrink-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+                      className="size-7 shrink-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground cursor-pointer"
                       aria-label="Conversation menu"
                     >
                       <MoreHorizontal className="size-3.5" />
@@ -224,14 +224,14 @@ export function Sidebar() {
                 />
                 <DropdownMenuContent align="end" className="w-36">
                   <DropdownMenuItem
-                    className="text-[13px]"
+                    className="text-xs cursor-pointer"
                     onClick={() => saveConversation(conv.id)}
                   >
                     <Download className="size-3.5 mr-2" />
                     Export JSON
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    className="text-[13px] text-destructive"
+                    className="text-xs text-destructive cursor-pointer"
                     onClick={() => deleteConversation(conv.id)}
                   >
                     <Trash2 className="size-3.5 mr-2" />
@@ -244,9 +244,9 @@ export function Sidebar() {
         </div>
       </ScrollArea>
 
-      <div className="px-4 py-3 border-t border-border/40">
-        <p className="text-[10px] text-muted-foreground/40 leading-relaxed">
-          Powered by GBIF · iNaturalist · NewsAPI
+      <div className="px-4 py-2.5 border-t border-border/40">
+        <p className="text-[10px] text-muted-foreground/40 leading-relaxed font-mono">
+          GBIF · iNaturalist · NewsAPI
         </p>
       </div>
     </aside>

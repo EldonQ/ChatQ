@@ -17,28 +17,28 @@ export const SearchSpeciesTool = makeAssistantToolUI<
     return (
       <ToolCard
         title={data?.found ? `${data.scientificName}` : "Searching GBIF taxonomy..."}
-        icon={<Search className="h-3.5 w-3.5" />}
+        icon={<Search className="h-3 w-3" />}
         status={isRunning ? "running" : data?.found ? "result" : "error"}
       >
         {data?.found ? (
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 py-1.5">
-            <dt className="text-muted-foreground text-xs">Scientific name</dt>
+            <dt className="text-muted-foreground text-[11px] font-mono">Scientific</dt>
             <dd className="font-semibold">{data.scientificName}</dd>
-            <dt className="text-muted-foreground text-xs">Canonical</dt>
+            <dt className="text-muted-foreground text-[11px] font-mono">Canonical</dt>
             <dd>{data.canonicalName}</dd>
-            <dt className="text-muted-foreground text-xs">Rank</dt>
+            <dt className="text-muted-foreground text-[11px] font-mono">Rank</dt>
             <dd className="capitalize">{data.rank}</dd>
-            <dt className="text-muted-foreground text-xs">Confidence</dt>
+            <dt className="text-muted-foreground text-[11px] font-mono">Confidence</dt>
             <dd>
-              <span className={(data.confidence ?? 0) >= 90 ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""}>
+              <span className={(data.confidence ?? 0) >= 90 ? "text-emerald-600 dark:text-emerald-400 font-medium font-mono" : "font-mono"}>
                 {data.confidence}%
               </span>
             </dd>
-            <dt className="text-muted-foreground text-xs">Match type</dt>
-            <dd>{data.matchType}</dd>
+            <dt className="text-muted-foreground text-[11px] font-mono">Match</dt>
+            <dd className="font-mono">{data.matchType}</dd>
             {data.synonym && (
               <>
-                <dt className="text-muted-foreground text-xs">Synonym</dt>
+                <dt className="text-muted-foreground text-[11px] font-mono">Synonym</dt>
                 <dd>Yes {data.acceptedName ? `→ ${data.acceptedName}` : ""}</dd>
               </>
             )}

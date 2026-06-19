@@ -16,19 +16,19 @@ export const SearchNewsTool = makeAssistantToolUI<
     return (
       <ToolCard
         title={result?.success ? `News — ${result.returned} articles` : "Searching news..."}
-        icon={<Newspaper className="h-3.5 w-3.5" />}
+        icon={<Newspaper className="h-3 w-3" />}
         status={isRunning ? "running" : result?.success ? "result" : "error"}
       >
         {!result ? (
           <p className="text-muted-foreground py-1.5">Searching NewsAPI for recent articles...</p>
         ) : result.success && result.articles ? (
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {result.articles.map((article, idx) => (
               <article
                 key={idx}
-                className="rounded-lg border border-border/40 p-2.5 hover:bg-muted/25 transition-colors"
+                className="rounded border border-border/40 p-2 hover:bg-muted/25 transition-colors cursor-pointer"
               >
-                <h4 className="font-medium leading-snug text-[13px]">
+                <h4 className="font-medium leading-snug text-xs">
                   <a
                     href={article.url}
                     target="_blank"
@@ -39,16 +39,16 @@ export const SearchNewsTool = makeAssistantToolUI<
                   </a>
                 </h4>
                 <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-muted-foreground">
-                  <span className="font-medium">{article.source}</span>
+                  <span className="font-medium font-mono">{article.source}</span>
                   {article.publishedAt && (
                     <>
                       <span className="text-border">·</span>
-                      <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
+                      <span className="font-mono">{new Date(article.publishedAt).toLocaleDateString()}</span>
                     </>
                   )}
                 </div>
                 {article.description && (
-                  <p className="mt-1.5 line-clamp-2 text-xs text-muted-foreground leading-relaxed">
+                  <p className="mt-1 line-clamp-2 text-[11px] text-muted-foreground leading-relaxed">
                     {article.description}
                   </p>
                 )}
@@ -56,7 +56,7 @@ export const SearchNewsTool = makeAssistantToolUI<
             ))}
           </div>
         ) : (
-          <p className="text-destructive py-1.5 text-xs">{result.error ?? "News search failed"}</p>
+          <p className="text-destructive py-1.5 text-[11px]">{result.error ?? "News search failed"}</p>
         )}
       </ToolCard>
     );

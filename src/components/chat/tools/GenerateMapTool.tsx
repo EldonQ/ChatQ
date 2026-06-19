@@ -19,13 +19,13 @@ export const GenerateMapTool = makeAssistantToolUI<
     return (
       <ToolCard
         title={title}
-        icon={<Map className="h-3.5 w-3.5" />}
+        icon={<Map className="h-3 w-3" />}
         status={isRunning ? "running" : result?.success ? "result" : "error"}
       >
         {!result ? (
           <p className="text-muted-foreground py-1.5">Running Cartopy + folium visualization...</p>
         ) : result.success && result.mapUrl ? (
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <div className="rounded-lg overflow-hidden border border-border/40 bg-muted/15">
               <Image
                 src={result.mapUrl}
@@ -36,7 +36,7 @@ export const GenerateMapTool = makeAssistantToolUI<
                 unoptimized
               />
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground">
               <span className="tabular-nums font-mono">{result.count?.toLocaleString()} records</span>
               {result.center && (
                 <span className="tabular-nums font-mono">
@@ -48,7 +48,7 @@ export const GenerateMapTool = makeAssistantToolUI<
                   href={result.htmlUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline font-medium ml-auto"
+                  className="text-primary hover:underline font-medium ml-auto cursor-pointer"
                 >
                   Interactive map →
                 </a>
@@ -56,7 +56,7 @@ export const GenerateMapTool = makeAssistantToolUI<
             </div>
           </div>
         ) : (
-          <p className="text-destructive py-1.5 text-xs">{result.error ?? "Map generation failed"}</p>
+          <p className="text-destructive py-1.5 text-[11px]">{result.error ?? "Map generation failed"}</p>
         )}
       </ToolCard>
     );
