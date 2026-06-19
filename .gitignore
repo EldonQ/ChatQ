@@ -44,8 +44,15 @@ next-env.d.ts
 __pycache__/
 *.pyc
 
+# agent skills (local installation artifacts)
+.agents/
+skills-lock.json
+
 # claude code
 .claude/
+
+# data files (binary shapefiles, not tracked in git)
+/data/
 
 # generated maps (keep directory structure)
 public/maps/data_*

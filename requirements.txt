@@ -1,0 +1,10 @@
+# Python dependencies for map visualization
+# Install with: pip install -r requirements.txt
+# For Cartopy, conda-forge is recommended: conda install -c conda-forge cartopy
+
+pandas>=2.0.0
+matplotlib>=3.7.0
+numpy>=1.24.0
+folium>=0.14.0
+cartopy>=0.22.0
+geopandas>=0.13.0

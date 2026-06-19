@@ -1,56 +1,86 @@
-export type MessageRole = "user" | "assistant" | "system";
-
-export interface ProgressStep {
-  id: string;
-  text: string;
-  status: "pending" | "running" | "done" | "error";
-  timestamp: number;
-}
-
-export interface Message {
-  id: string;
-  role: MessageRole;
-  content: string;
-  timestamp: number;
-  dataPreview?: DataPreview;
-  progressSteps?: ProgressStep[];
-}
-
-export interface DataPreview {
-  type: "csv" | "geojson" | "table";
-  headers: string[];
-  rows: string[][];
-  summary: string;
-  filename: string;
-}
-
 export interface Conversation {
   id: string;
   title: string;
-  messages: Message[];
   createdAt: number;
   updatedAt: number;
 }
 
-export interface UploadedFile {
-  name: string;
-  size: number;
-  type: string;
-  data: string;
+// Tool output types (what the LLM sees)
+export interface SearchSpeciesOutput {
+  found: boolean;
+  scientificName?: string;
+  canonicalName?: string;
+  rank?: string;
+  matchType?: string;
+  confidence?: number;
+  kingdom?: string;
+  phylum?: string;
+  class?: string;
+  order?: string;
+  family?: string;
+  genus?: string;
+  species?: string;
+  synonym?: boolean;
+  acceptedName?: string;
+  usageKey?: number;
+  acceptedKey?: number;
+  message?: string;
 }
 
-// SSE event types from the API
-export type SSEEvent =
-  | { type: "progress"; step: string; status: "running" | "done" | "error" }
-  | { type: "result"; content: string; data?: ApiResponseData }
-  | { type: "error"; message: string }
-  | { type: "done" };
+export interface FetchAndCleanOutput {
+  scientificName: string;
+  sessionKey: string;
+  sources: { gbif: number; inaturalist: number };
+  total: number;
+  removed: number;
+  kept: number;
+  removalReasons: Record<string, number>;
+  qualityFlags: Record<string, number>;
+  sourceBreakdown: Record<string, number>;
+  recordCount: number;
+  sample: Array<{
+    scientificName: string;
+    decimalLatitude: number;
+    decimalLongitude: number;
+    country: string | null;
+    eventDate: string | null;
+    datasetName: string | null;
+    flags: string[];
+  }>;
+}
 
-export interface ApiResponseData {
-  species: string;
+export interface MultiSpeciesFetchOutput {
+  mode: "multi";
+  speciesCount: number;
   totalRecords: number;
-  cleanedRecords: number;
-  csv: string;
-  preview: Record<string, unknown>[];
-  fullRecords: Record<string, unknown>[];
+  center: [number, number];
+  combinedSessionKey: string;
+  perSpecies: FetchAndCleanOutput[];
+}
+
+export interface GenerateMapOutput {
+  success: boolean;
+  mapUrl?: string;
+  htmlUrl?: string | null;
+  count?: number;
+  center?: [number, number];
+  species?: string | string[];
+  error?: string;
+}
+
+export interface SearchNewsOutput {
+  success: boolean;
+  query?: string;
+  totalResults?: number;
+  returned?: number;
+  articles?: Array<{
+    title: string;
+    source: string;
+    author: string | null;
+    publishedAt: string;
+    url: string;
+    description: string | null;
+    urlToImage: string | null;
+  }>;
+  error?: string;
 }

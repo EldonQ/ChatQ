@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Conversation, Message, ProgressStep } from "./types";
+import type { Conversation } from "./types";
 
 interface ChatState {
   conversations: Conversation[];
@@ -10,8 +10,6 @@ interface ChatState {
   setActive: (id: string) => void;
   newConversation: () => void;
   deleteConversation: (id: string) => void;
-  addMessage: (convId: string, msg: Message) => string;
-  updateMessage: (convId: string, msgId: string, updates: Partial<Message>) => void;
   toggleSidebar: () => void;
   updateConversation: (id: string, updates: Partial<Conversation>) => void;
   setChatMessages: (id: string, msgs: unknown[]) => void;
@@ -27,7 +25,6 @@ function createConversation(): Conversation {
   return {
     id: genId(),
     title: "New Analysis",
-    messages: [],
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -63,41 +60,6 @@ export const useStore = create<ChatState>((set) => ({
         activeId: s.activeId === id ? filtered[0].id : s.activeId,
       };
     }),
-
-  addMessage: (convId, msg) => {
-    set((s) => ({
-      conversations: s.conversations.map((c) =>
-        c.id === convId
-          ? {
-              ...c,
-              messages: [...c.messages, msg],
-              updatedAt: Date.now(),
-              title:
-                c.messages.length === 1 && msg.role === "user"
-                  ? msg.content.slice(0, 40) +
-                    (msg.content.length > 40 ? "…" : "")
-                  : c.title,
-            }
-          : c,
-      ),
-    }));
-    return msg.id;
-  },
-
-  updateMessage: (convId, msgId, updates) =>
-    set((s) => ({
-      conversations: s.conversations.map((c) =>
-        c.id === convId
-          ? {
-              ...c,
-              messages: c.messages.map((m) =>
-                m.id === msgId ? { ...m, ...updates } : m,
-              ),
-              updatedAt: Date.now(),
-            }
-          : c,
-      ),
-    })),
 
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
 
