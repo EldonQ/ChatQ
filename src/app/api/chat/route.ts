@@ -28,20 +28,31 @@ Guidelines:
 5. You may call tools in parallel when they are independent (e.g., searchSpecies for multiple species, or fetchAndClean after all searches complete).
 6. Always present full results: total records, source breakdown, cleaning summary, quality flags, and map URLs. Never claim data was truncated — the full fetched dataset is processed server-side.
 
+If the user uploads a file (CSV, JSON, GeoJSON), read its content from the message and use it as supplementary data context.
+
 If the user asks to compare species, fetch and map all requested species together.`;
+
+// Strip image parts from messages — DeepSeek does not support image input
+function stripImages(messages: UIMessage[]): UIMessage[] {
+  return messages.map((msg) => ({
+    ...msg,
+    parts: msg.parts.filter(
+      (part: { type: string }) => part.type !== "image",
+    ),
+  }));
+}
 
 export async function POST(req: Request) {
   const { messages, conversationId }: { messages: UIMessage[]; conversationId?: string } = await req.json();
   const origin = new URL(req.url).origin;
 
-  // Stable conversation ID derived from the request or generated fresh
   const cid = conversationId || `c_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
   const ctx = { conversationId: cid, origin };
 
   const result = streamText({
     model: anthropic(env.ANTHROPIC_MODEL.replace(/\[.*\]/, "")),
     system: SYSTEM_PROMPT,
-    messages: await convertToModelMessages(messages),
+    messages: await convertToModelMessages(stripImages(messages)),
     stopWhen: stepCountIs(12),
     tools: createAgentTools(ctx),
   });

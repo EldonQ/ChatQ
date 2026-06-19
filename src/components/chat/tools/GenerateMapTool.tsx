@@ -14,7 +14,7 @@ export const GenerateMapTool = makeAssistantToolUI<
   render: ({ args, result, status }) => {
     const isRunning = status.type === "running" || status.type === "requires-action";
     const names = Array.isArray(args.scientificNames) ? args.scientificNames : [args.scientificNames];
-    const title = names.length > 1 ? "Generating comparison map" : `Generating map for ${names[0]}`;
+    const title = names.length > 1 ? "Generating comparison map" : `Generating map — ${names[0]}`;
 
     return (
       <ToolCard
@@ -23,10 +23,10 @@ export const GenerateMapTool = makeAssistantToolUI<
         status={isRunning ? "running" : result?.success ? "result" : "error"}
       >
         {!result ? (
-          <p className="text-muted-foreground py-1">Generating distribution map...</p>
+          <p className="text-muted-foreground py-1.5">Running Cartopy + folium visualization...</p>
         ) : result.success && result.mapUrl ? (
-          <div className="space-y-3">
-            <div className="rounded-lg overflow-hidden border bg-muted/20">
+          <div className="space-y-2.5">
+            <div className="rounded-lg overflow-hidden border border-border/40 bg-muted/15">
               <Image
                 src={result.mapUrl}
                 alt="Species distribution map"
@@ -36,10 +36,10 @@ export const GenerateMapTool = makeAssistantToolUI<
                 unoptimized
               />
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-              <span className="tabular-nums">{result.count?.toLocaleString()} records</span>
+            <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+              <span className="tabular-nums font-mono">{result.count?.toLocaleString()} records</span>
               {result.center && (
-                <span className="tabular-nums">
+                <span className="tabular-nums font-mono">
                   {result.center[0].toFixed(2)}°, {result.center[1].toFixed(2)}°
                 </span>
               )}
@@ -48,15 +48,15 @@ export const GenerateMapTool = makeAssistantToolUI<
                   href={result.htmlUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline font-medium"
+                  className="text-primary hover:underline font-medium ml-auto"
                 >
-                  Open interactive map →
+                  Interactive map →
                 </a>
               )}
             </div>
           </div>
         ) : (
-          <p className="text-destructive py-1">{result.error ?? "Map generation failed"}</p>
+          <p className="text-destructive py-1.5 text-xs">{result.error ?? "Map generation failed"}</p>
         )}
       </ToolCard>
     );

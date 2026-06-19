@@ -1,14 +1,5 @@
 import type { AttachmentAdapter, PendingAttachment, CompleteAttachment } from "@assistant-ui/core";
 
-function readFileAsDataURL(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 function readFileAsText(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -18,16 +9,30 @@ function readFileAsText(file: File): Promise<string> {
   });
 }
 
+const ACCEPTED_EXTENSIONS = [".csv", ".tsv", ".geojson", ".json", ".txt", ".xml"];
+
 export class EcoQAttachmentAdapter implements AttachmentAdapter {
-  accept = "image/*,.csv,.geojson,.json,.txt";
+  accept = ACCEPTED_EXTENSIONS.join(",");
 
   async *add({ file }: { file: File }): AsyncGenerator<PendingAttachment, void> {
     const id = `att_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const isImage = file.type.startsWith("image/");
 
+    if (isImage) {
+      yield {
+        id,
+        type: "file",
+        name: file.name,
+        contentType: file.type || undefined,
+        file,
+        status: { type: "incomplete", reason: "error" },
+      };
+      return;
+    }
+
     yield {
       id,
-      type: isImage ? "image" : "file",
+      type: "file",
       name: file.name,
       contentType: file.type || undefined,
       file,
@@ -36,7 +41,7 @@ export class EcoQAttachmentAdapter implements AttachmentAdapter {
 
     yield {
       id,
-      type: isImage ? "image" : "file",
+      type: "file",
       name: file.name,
       contentType: file.type || undefined,
       file,
@@ -44,28 +49,12 @@ export class EcoQAttachmentAdapter implements AttachmentAdapter {
     };
   }
 
-  async remove(): Promise<void> {
-    // Client-side only; nothing to clean up
-  }
+  async remove(): Promise<void> {}
 
   async send(attachment: PendingAttachment): Promise<CompleteAttachment> {
-    const { file, id, name, contentType, type } = attachment;
+    const { file, id, name, contentType } = attachment;
     if (!file) {
       throw new Error("Missing file for attachment");
-    }
-
-    const isImage = file.type.startsWith("image/") || type === "image";
-
-    if (isImage) {
-      const dataUrl = await readFileAsDataURL(file);
-      return {
-        id,
-        type: "image",
-        name,
-        contentType,
-        status: { type: "complete" },
-        content: [{ type: "image", image: dataUrl, filename: name }],
-      };
     }
 
     const text = await readFileAsText(file);

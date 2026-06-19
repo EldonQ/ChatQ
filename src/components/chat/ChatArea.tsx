@@ -63,9 +63,9 @@ export function ChatArea() {
     return (
       <div className="flex-1 flex items-center justify-center bg-background">
         <div className="text-center space-y-3">
-          <div className="mx-auto size-12 rounded-full bg-primary/10 flex items-center justify-center">
+          <div className="mx-auto size-14 rounded-2xl bg-primary/10 flex items-center justify-center">
             <svg
-              className="size-6 text-primary"
+              className="size-7 text-primary"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
@@ -78,7 +78,7 @@ export function ChatArea() {
               />
             </svg>
           </div>
-          <p className="text-muted-foreground text-sm font-medium">Select or create a conversation</p>
+          <p className="text-muted-foreground text-sm font-medium">Select or create a conversation to begin</p>
         </div>
       </div>
     );
@@ -88,10 +88,12 @@ export function ChatArea() {
     <AssistantRuntimeProvider runtime={runtime}>
       <Thread
         welcome={{
-          message: "Ask about any species to explore occurrence data, generate distribution maps, and find recent news.",
+          message: "Explore species distribution data",
           suggestions: [
-            { prompt: "Map Panthera tigris distribution", text: "Map tiger distribution" },
-            { prompt: "Compare Panthera tigris and Panthera leo", text: "Compare tigers and lions" },
+            { prompt: "Search for Panthera tigris and map its distribution", text: "Map tiger distribution" },
+            { prompt: "Compare Panthera tigris and Panthera leo distributions", text: "Compare tigers and lions" },
+            { prompt: "Find recent news about African elephant conservation", text: "Elephant conservation news" },
+            { prompt: "Search for Ursus maritimus and fetch occurrence data", text: "Polar bear occurrence data" },
           ],
         }}
         composer={{ allowAttachments: true }}
@@ -99,7 +101,7 @@ export function ChatArea() {
         strings={{
           welcome: { message: "Welcome to EcoQ" },
           composer: {
-            input: { placeholder: "Ask about a species or upload a file..." },
+            input: { placeholder: "Ask about a species, upload a CSV, or request a distribution map..." },
           },
         }}
       />

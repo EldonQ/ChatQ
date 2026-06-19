@@ -70,6 +70,15 @@ export async function runMapVisualization(
   let stderr = "";
 
   try {
+    // Validate CSV before writing
+    if (!options.csv || options.csv.trim().length === 0) {
+      throw new Error("CSV content is empty — no data to map. Run fetchAndClean first.");
+    }
+    const csvLines = options.csv.trim().split("\n");
+    if (csvLines.length < 2) {
+      throw new Error(`CSV has only ${csvLines.length} line(s) — no data rows. Run fetchAndClean first.`);
+    }
+
     await writeFile(csvPath, options.csv, "utf-8");
 
     const scriptPath = path.join(process.cwd(), "scripts", "map_viz.py");

@@ -93,22 +93,18 @@ export function Sidebar() {
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? (
-        <Sun className="size-4" />
-      ) : (
-        <Moon className="size-4" />
-      )}
+      {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </Button>
   );
 
   if (!sidebarOpen) {
     return (
-      <div className="flex flex-col items-center gap-2 py-4 px-1.5 border-r border-border/60 bg-sidebar/80 backdrop-blur-sm">
+      <div className="flex flex-col items-center gap-2 py-4 px-1.5 border-r border-border/50 bg-sidebar/60 backdrop-blur-xl">
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
-          className="size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/50"
+          className="size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40"
           aria-label="Open sidebar"
         >
           <PanelLeft className="size-4" />
@@ -125,7 +121,7 @@ export function Sidebar() {
         <Separator className="my-1 w-5" />
         <ScrollArea className="flex-1">
           <div className="flex flex-col items-center gap-1 py-1">
-            {conversations.slice(0, 5).map((conv) => (
+            {conversations.slice(0, 6).map((conv) => (
               <Button
                 key={conv.id}
                 variant="ghost"
@@ -133,8 +129,8 @@ export function Sidebar() {
                 onClick={() => setActive(conv.id)}
                 className={`size-9 rounded-lg ${
                   activeId === conv.id
-                    ? "bg-sidebar-accent text-sidebar-foreground"
-                    : "text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground/60 hover:text-foreground hover:bg-sidebar-accent/40"
                 }`}
                 aria-label={conv.title}
               >
@@ -149,18 +145,21 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="w-72 flex flex-col border-r border-border/60 bg-sidebar/80 backdrop-blur-sm shrink-0" aria-label="Sidebar">
-      <div className="flex items-center justify-between px-4 py-4">
+    <aside
+      className="w-[280px] flex flex-col border-r border-border/50 bg-sidebar/60 backdrop-blur-xl shrink-0"
+      aria-label="Sidebar"
+    >
+      <div className="flex items-center justify-between px-4 pt-5 pb-4">
         <div className="flex items-center gap-2.5">
-          <div className="size-7 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center ring-1 ring-primary/20">
             <Leaf className="size-4 text-primary" />
           </div>
-          <div>
-            <h1 className="font-semibold text-sm tracking-tight leading-none">EcoQ</h1>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Species Distribution</p>
+          <div className="leading-none">
+            <h1 className="font-bold text-[15px] tracking-tight">EcoQ</h1>
+            <p className="text-[11px] text-muted-foreground mt-1 font-medium">Species Distribution</p>
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           {mounted && themeToggle}
           <Button
             variant="ghost"
@@ -178,27 +177,31 @@ export function Sidebar() {
         <Button
           variant="outline"
           size="sm"
-          className="w-full justify-start gap-2 rounded-lg h-9 text-sm font-medium"
+          className="w-full justify-start gap-2 rounded-lg h-9 text-[13px] font-medium border-border/60 hover:bg-accent/40"
           onClick={newConversation}
         >
-          <Plus className="size-3.5" />
+          <Plus className="size-4" />
           New Analysis
         </Button>
       </div>
 
-      <Separator className="mx-3 w-auto" />
+      <div className="px-4 pb-2">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+          Conversations
+        </p>
+      </div>
 
-      <ScrollArea className="flex-1 px-3 py-2">
+      <ScrollArea className="flex-1 px-2">
         <div className="flex flex-col gap-0.5">
           {conversations.map((conv) => (
             <div key={conv.id} className="group flex items-center gap-0.5 rounded-lg">
               <Button
-                variant={activeId === conv.id ? "secondary" : "ghost"}
+                variant="ghost"
                 size="sm"
-                className={`flex-1 justify-start gap-2.5 text-sm h-9 px-3 rounded-lg font-normal ${
+                className={`flex-1 justify-start gap-2.5 text-[13px] h-9 px-3 rounded-lg font-normal ${
                   activeId === conv.id
-                    ? "bg-sidebar-accent/80 text-sidebar-foreground font-medium"
-                    : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/40"
+                    ? "bg-primary/8 text-foreground font-medium ring-1 ring-primary/15"
+                    : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40"
                 }`}
                 onClick={() => setActive(conv.id)}
                 aria-current={activeId === conv.id ? "page" : undefined}
@@ -221,14 +224,14 @@ export function Sidebar() {
                 />
                 <DropdownMenuContent align="end" className="w-36">
                   <DropdownMenuItem
-                    className="text-sm"
+                    className="text-[13px]"
                     onClick={() => saveConversation(conv.id)}
                   >
                     <Download className="size-3.5 mr-2" />
-                    Save
+                    Export JSON
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    className="text-sm text-destructive"
+                    className="text-[13px] text-destructive"
                     onClick={() => deleteConversation(conv.id)}
                   >
                     <Trash2 className="size-3.5 mr-2" />
@@ -241,10 +244,9 @@ export function Sidebar() {
         </div>
       </ScrollArea>
 
-      <Separator className="mx-3 w-auto" />
-      <div className="px-4 py-3">
-        <p className="text-[10px] text-muted-foreground/60 leading-relaxed">
-          EcoQ — AI-powered species distribution data assistant
+      <div className="px-4 py-3 border-t border-border/40">
+        <p className="text-[10px] text-muted-foreground/40 leading-relaxed">
+          Powered by GBIF · iNaturalist · NewsAPI
         </p>
       </div>
     </aside>
